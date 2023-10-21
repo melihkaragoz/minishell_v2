@@ -1,0 +1,12 @@
+node1		->		node2		-> node3
+command[0] = ls		command[0] = wc
+command[1] = -la	command[1] = -l
+
+ls -> -la -> | -> wc -> -la
+
+while
+	cmd node olustur
+	while
+		eger tmp'nin type'ı 2 degilse (pipe) command arrayine ekle.
+	eger 2 ise tmp'yi listeye ekle.
+
