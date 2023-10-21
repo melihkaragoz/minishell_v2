@@ -40,7 +40,7 @@ void add_command_node(t_command *new)
 	else
 	{
 		new->prev = g_data.command_tail;
-		g_data.command_tail->next = new; 
+		g_data.command_tail->next = new;
 		g_data.command_tail = new;
 	}
 }
@@ -91,7 +91,7 @@ void print_commands(void)
 		printf("command\n");
 		while (temp->command[i])
 		{
-			printf("\narg[%d]: %s ", i, temp->command[i]);
+			printf("\n##########\narg[%d]: %s ", i, temp->command[i]);
 			printf("\nredirections: \n");
 			int j = 0;
 			while (j < 4)
@@ -108,7 +108,7 @@ void print_commands(void)
 						type = "heredoc";
 					else if (redir->type == 3)
 						type = "append";
-					printf("type: %s key: %s ", type, redir->key);
+					printf("\ntype: %s key: %s ", type, redir->key);
 					redir = redir->next;
 				}
 				if (redir != NULL)

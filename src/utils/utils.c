@@ -33,7 +33,6 @@ int	is_sep(char *s)
 	return (0);
 }
 
-
 void space_jumper(char *s, int *i)
 {
 	while (s[*i] == ' ' || s[*i] == '\t')
@@ -42,8 +41,8 @@ void space_jumper(char *s, int *i)
 
 int	ft_isval(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9') || c == '_' || c == '.')
+	if (c < 127 && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_' || c == '.'))
 		return (1);
 	return (0);
 }

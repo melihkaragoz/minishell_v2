@@ -132,7 +132,6 @@ static void seperate(char *rl, int *i)
 	int f;
 
 	g_data.line = ft_strdup(rl);
-	free(rl);
 	while (g_data.line && g_data.line[*i])
 	{
 		while (g_data.line[*i] && g_data.line[*i] <= 32 && g_data.line[*i] >= 0) // bosluklari gec
@@ -189,12 +188,11 @@ static char **alloc_cmd(t_parse_node *pnode)
 
 	i = 0;
 	tmp = pnode;
-	while (tmp && tmp->type != 2)
+	while (tmp && tmp->type != PIPPE)
 	{
 		i++;
 		tmp = tmp->next;
 	}
-	printf("[!] alloc_len: %d\n", i);
 	ret = malloc(sizeof(char *) * (i + 1));
 	ret[i] = NULL;
 	return (ret);
@@ -222,27 +220,61 @@ int set_commands(void)
 	redir = NULL;
 	while (tmp && tmp->word)
 	{
-		i = -1;
+		i = 0;
 		cmd = create_command_node();
 		cmd->command = alloc_cmd(tmp);
-		printf("[STR] w:x _%s_  , t: %d\n", tmp->word, tmp->type);
-		while (tmp && tmp->type != 2)
+		while (tmp && tmp->type != PIPPE)
 		{
 			redir = if_redir(tmp);
 			if (redir != NULL)
 			{
 				add_redirection_node(cmd, redir, redir->type);
-				tmp = tmp->next;
+				tmp = tmp->next->next;
 			}
-			cmd->command[++i] = ft_strdup(tmp->word);
+			cmd->command[i] = ft_strdup(tmp->word);
 			tmp = tmp->next;
+			i++;
 		}
 		cmd->command[i] = NULL;
 		add_command_node(cmd);
-		if (tmp && tmp->type == 2)
+		if (tmp && tmp->type == PIPPE)
 			tmp = tmp->next;
 	}
 	return (1);
+}
+
+char *smart_substr(char *str, char *start, int len, void *freeable)
+{
+	char *tmp;
+
+	tmp = ft_substr(str, start - str, len);
+	free(freeable);
+	return (tmp);
+}
+
+void trim(char **rl)
+{
+	char *st;
+	char *fn;
+	int i;
+	int f;
+
+	i = 0;
+	f = 0;
+	while ((*rl)[i])
+	{
+		if ((*rl)[i] > 32 && (*rl)[i] < 127)
+		{
+			fn = (*rl) + i;
+			if (f == 0)
+			{
+				st = fn;
+				f = 1;
+			}
+		}
+		i++;
+	}
+	*rl = smart_substr(*rl, st, fn - st + 1, *rl);
 }
 
 int parse(char *rl)
@@ -255,11 +287,58 @@ int parse(char *rl)
 		perror("Missing quote!\n");
 		return (1);
 	}
+	trim(&rl);
 	seperate(rl, &i);
+
+	// ################################################################ DEBUG
+	t_parse_node *pn;
+	pn = g_data.parse_head;
+	printf("\n\tAFTER SEPERATE\n");
+	while (pn)
+	{
+		printf("[PN]word: %s\ttype: %d\n", pn->word, pn->type);
+		pn = pn->next;
+	}
+	printf("\n\n");
+
 	env_resulation();
+	pn = g_data.parse_head;
+	printf("\n\tAFTER RESULATION\n");
+	while (pn)
+	{
+		printf("[PN]word: %s\ttype: %d\n", pn->word, pn->type);
+		pn = pn->next;
+	}
+	printf("\n\n");
+
 	ms_set_nodes(&i);
+	pn = g_data.parse_head;
+	printf("\n\tAFTER SETTING NODES\n");
+	while (pn)
+	{
+		printf("[PN]word: %s\ttype: %d\n", pn->word, pn->type);
+		pn = pn->next;
+	}
+	printf("\n\n");
+
 	// prints_nodes();
 	set_commands();
+	t_command *cn;
+	cn = g_data.command_head;
+	pn = g_data.parse_head;
+	printf("\n\tAFTER SETTING COMMANDS\n");
+	int c = -1;
+	while (cn)
+	{
+		c = -1;
+		while (cn->command[++c])
+			printf("[PN]word: %s\n", cn->command[c]);
+		printf("\n");
+		cn = cn->next;
+	}
+	printf("\n\n");
+	// ################################################################ DEBUG
+
 	print_commands();
 	return (0);
 }

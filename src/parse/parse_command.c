@@ -63,7 +63,7 @@ void iterate_parse_nodes(t_parse_node *temp, t_command *command, t_parse_node *s
 			add_redirection_node(command, redir, redir->type);
 			temp = temp->next->next;
 		}
-		else if (temp->type == 2)
+		else if (temp->type == PIPPE)
 		{
 			if_pipe_or_end(&start, &temp, &i, command);
 			command = create_command_node();

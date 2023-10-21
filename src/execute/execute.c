@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 extern t_data g_data;
 
 void redirections(t_command *curr)

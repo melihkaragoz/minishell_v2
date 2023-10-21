@@ -29,7 +29,7 @@ LIBFT_DIR = libft
 INC = -I include -I $(LIBFT_DIR)
 
 
-LIBFT = $(LIBFT_DIR)/libft.a	
+LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = gcc
 
@@ -39,7 +39,7 @@ LDFLAGS = -lreadline
 
 all: $(NAME)
 
-$(LIBFT): 
+$(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJS) $(LIBFT)

@@ -28,16 +28,12 @@ int ms_node_check_builtin(char *content)
 int ms_node_check_redirection(char *content)
 {
 	if (!ft_strncmp("<<", content, 2))
-		return (5);
-	else if (!ft_strncmp("<", content, 1))
-		return (3);
+		return (HEREDOC);
 	else if (!ft_strncmp(">>", content, 2))
-		return (6);
+		return (APPEND);
+	else if (!ft_strncmp("<", content, 1))
+		return (INFILE);
 	else if (!ft_strncmp(">", content, 1))
-		return (4);
-	else if (!ft_strncmp("||", content, 2))
-		return (7);
-	else if (!ft_strncmp("&&", content, 2))
-		return (8);
+		return (OUTFILE);
 	return (0);
 }

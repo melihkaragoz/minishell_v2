@@ -1,0 +1,12 @@
+**melih**karagoz**
+
+f == 1 -> char
+f == 0 -> space
+
+f = 0
+if not space
+	fn = rl + i
+	if f == 0
+		st = fn
+		f = 1
+i++

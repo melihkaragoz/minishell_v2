@@ -32,10 +32,13 @@ int main(int argc, char *argv[], char *envp[])
 			continue;
 		add_history(rl);
 		if (parse(rl) == 0)
+		{
+			exit(0);
 			execute(merge_env());
+		}
 		clear_parse_list();
 		clear_command_list();
-		// free(rl);
+		free(rl);
 	}
 	return 0;
 }

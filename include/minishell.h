@@ -18,10 +18,12 @@
 # define SINGLE_Q 1
 # define DOUBLE_Q 2
 
-# define INFILE 0
+# define INFILE 4
 # define OUTFILE 1
 # define HEREDOC 2
 # define APPEND 3
+# define PIPPE 5
+# define BUILTIN 6
 
 # define SINGLE_COMMAND 0
 # define MULTI_COMMAND 1
@@ -145,4 +147,5 @@ void run_exit(int num);
 int	is_builtin(t_command *cmd);
 void	add_environment(char *key, char *value);
 int print_nodes(void);
+char	*smart_substr(char *str, char *start, int len, void *freeable);
 #endif

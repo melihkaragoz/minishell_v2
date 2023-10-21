@@ -55,11 +55,11 @@ void ms_set_nodes(int *i)
 		tmp->type = 0;								  // undefined
 		if (ms_node_check_redirection(tmp->word)) // redirection
 			tmp->type = ms_node_check_redirection(tmp->word);
-		else if (!ft_strncmp("|", tmp->word, 2)) // pipe
-			tmp->type = 2;
+		else if (ft_strncmp("|", tmp->word, 2) == 0) // pipe
+			tmp->type = PIPPE;
 		ms_remove_quotes(tmp, i);
 		if (ms_node_check_builtin(tmp->word)) // built-in
-			tmp->type = 1;
+			tmp->type = BUILTIN;
 		tmp = tmp->next;
 	}
 }
