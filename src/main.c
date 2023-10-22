@@ -30,10 +30,14 @@ void gadget(void)
 int main(int argc, char *argv[], char *envp[])
 {
 	char *rl;
+	int stdot;
+	int stdit;
 
 	init_data(argc, argv, envp);
 	while (1)
 	{
+		stdot = dup(1);
+		stdit = dup(0);
 		rl = readline("segmentation fault$ ");
 		if (rl_control(rl) == 1)
 			continue;
@@ -43,8 +47,10 @@ int main(int argc, char *argv[], char *envp[])
 		close_all_redirections();
 		clear_parse_list();
 		clear_command_list();
-		//free(rl);
-		//system("leaks minishell");
+		dup2(stdot, 1);
+		dup2(stdit, 0);
+		// free(rl);
+		// system("leaks minishell");
 	}
 	return 0;
 }

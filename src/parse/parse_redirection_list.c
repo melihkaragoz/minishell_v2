@@ -37,6 +37,7 @@ void add_redirection_node(t_command *command, t_redirection *new, int type)
 		command->infile = new;
 	else if (type == OUTFILE || type == APPEND)
 		command->outfile = new;
+	close_all_redirections();
 }
 
 void close_all_redirections()

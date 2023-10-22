@@ -57,7 +57,7 @@ void exec(t_command *curr, int type, char **envp)
 	if (is_builtin(curr->command[0]) && type != MULTI_COMMAND)
 	{
 		builtin_run(curr); // exit(g_data.exit_status);
-		return;
+		return ;
 	}
 	if (fork() == 0)
 	{

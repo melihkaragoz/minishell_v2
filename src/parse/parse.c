@@ -183,7 +183,6 @@ int set_commands(void)
 			if (redir != NULL)
 			{
 				add_redirection_node(cmd, redir, redir->type);
-				close_all_redirections();
 				if (tmp->next->next)
 				{
 					tmp = tmp->next->next;
@@ -205,6 +204,7 @@ int set_commands(void)
 		if (tmp && tmp->type == PIPPE)
 			tmp = tmp->next;
 	}
+	close_all_redirections();
 	return (1);
 }
 
@@ -278,13 +278,24 @@ int parse(char *rl)
 	}
 	trim(&rl);
 	seperate(rl, &i);
+
+
 	env_resulation();
 	ms_set_nodes(&i);
 	// prints_nodes();
+	// t_parse_node	*tmp;
+
+	// tmp = g_data.parse_head;
+	// while (tmp)
+	// {
+	// 	printf("\t[W] %s, [T]%d\n", tmp->word, tmp->type);
+	// 	tmp = tmp->next;
+	// }
+	// getchar();
 	set_commands();
 	// print_commands();
 	parse_access();
 	free(g_data.line);
-	system("leaks minishell");
+	// system("leaks minishell");
 	return (0);
 }
