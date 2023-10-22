@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:28:12 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:29:03 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-int check_echo_n(char *keyword)
+int	check_echo_n(char *keyword)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (keyword[++i])
@@ -13,17 +25,17 @@ int check_echo_n(char *keyword)
 	return (1);
 }
 
-void update_env_tail(void)
+void	update_env_tail(void)
 {
 	g_data.env_tail = g_data.env_head;
 	while (g_data.env_tail->next && g_data.env_tail->next->key)
 		g_data.env_tail = g_data.env_tail->next;
 }
 
-int go_dir(char *path)
+int	go_dir(char *path)
 {
-	char *pwd;
-	char *oldpwd;
+	char	*pwd;
+	char	*oldpwd;
 
 	pwd = getcwd(NULL, 0);
 	oldpwd = getcwd(NULL, 0);
@@ -32,7 +44,7 @@ int go_dir(char *path)
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		smart_free(pwd);
 		smart_free(oldpwd);
-		return 0;
+		return (0);
 	}
 	add_environment("PWD", getcwd(NULL, 0));
 	add_environment("OLDPWD", oldpwd);
@@ -41,7 +53,7 @@ int go_dir(char *path)
 	return (1);
 }
 
-void run_exit(int num)
+void	run_exit(int num)
 {
 	close_all_redirections();
 	clear_parse_list();

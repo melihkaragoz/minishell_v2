@@ -1,25 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:05:15 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:19:35 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-int run_env(void)
+int	run_export(t_command *cmd)
 {
-	t_env *env;
-
-	env = g_data.env_head;
-	while (env && env->value && !is_full_space(env->value))
-	{
-		printf("%s=%s\n", env->key, env->value);
-		env = env->next;
-	}
-	return (1);
-}
-
-int run_export(t_command *cmd)
-{
-	char **splitted;
-	t_env *tmp;
-	char *arg;
+	t_env	*tmp;
+	char	*arg;
 
 	arg = cmd->command[1];
 	if (!arg)
@@ -35,41 +33,38 @@ int run_export(t_command *cmd)
 		}
 	}
 	else
+		add_export(arg);
+	return (1);
+}
+
+int	run_env(void)
+{
+	t_env	*env;
+
+	env = g_data.env_head;
+	while (env && env->value && !is_full_space(env->value))
 	{
-		splitted = ft_split(arg, '=');
-		if (!splitted[1])
-			add_environment(splitted[0], "");
-		else
-			add_environment(splitted[0], splitted[1]);
-		smart_free_strs(splitted);
+		printf("%s=%s\n", env->key, env->value);
+		env = env->next;
 	}
 	return (1);
 }
 
-int run_pwd(void)
+int	run_echo(t_command *cmd)
 {
-	char *pwd;
-
-	pwd = get_env("PWD");
-	printf("%s\n", pwd);
-	smart_free(pwd);
-	return (1);
-}
-
-int run_echo(t_command *cmd)
-{
-	bool n;
-	int i;
+	bool	n;
+	int		i;
 
 	i = 1;
 	n = false;
 	while (cmd->command[i])
 	{
-		if (i == 1 && !ft_strncmp("-n", cmd->command[i], 2) && check_echo_n(cmd->command[i]))
+		if (i == 1 && !ft_strncmp("-n", cmd->command[i], 2) && \
+			check_echo_n(cmd->command[i]))
 		{
 			n = true;
 			i++;
-			continue;
+			continue ;
 		}
 		printf("%s", cmd->command[i]);
 		if (cmd->command[i + 1])
@@ -81,12 +76,12 @@ int run_echo(t_command *cmd)
 	return (1);
 }
 
-int run_cd(t_command *cmd)
+int	run_cd(t_command *cmd)
 {
-	int res;
-	char *home;
-	char *curr;
-	char *tmp;
+	char	*home;
+	char	*curr;
+	char	*tmp;
+	int		res;
 
 	res = -1;
 	home = get_env("HOME");
@@ -114,45 +109,29 @@ int run_cd(t_command *cmd)
 	}
 	add_environment("PWD", tmp);
 	add_environment("OLDPWD", curr);
-	// smart_free(tmp);
 	smart_free(curr);
 	smart_free(home);
 	return (1);
 }
 
-void	*unset_node(t_env *node)
+int	run_unset(t_command *cmd)
 {
-	void	*tmp;
+	t_env	*prev;
+	t_env	*env;
+	char	*s;
 
-	smart_free(node->key);
-	smart_free(node->value);
-	tmp = node->next;
-	free(node);
-	return (tmp);
-}
-
-int run_unset(t_command *cmd)
-{
-	t_env *prev;
-	t_env *env;
-
-	char *s;
 	env = g_data.env_head;
 	prev = g_data.env_head;
 	s = cmd->command[1];
 	while (s && env && env->value)
 	{
-		if (ft_strlen(env->key) == ft_strlen(s) &&
+		if (ft_strlen(env->key) == ft_strlen(s) && \
 			!ft_strncmp(s, env->key, ft_strlen(env->key)))
 		{
 			if (env == g_data.env_head)
 				g_data.env_head = unset_node(env);
 			else
 				prev->next = unset_node(env);
-			// else if (env == g_data.env_tail)
-			// 	prev->next = NULL;
-			// else
-			// 	prev->next = env->next;
 			update_env_tail();
 			return (1);
 		}
