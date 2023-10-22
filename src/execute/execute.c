@@ -61,6 +61,8 @@ void exec(t_command *curr, int type, char **envp)
 	}
 	if (fork() == 0)
 	{
+		// close_all_redirections();
+		// int a = dup(1);
 		redirections(curr);
 		if (type == MULTI_COMMAND)
 		{
@@ -72,6 +74,9 @@ void exec(t_command *curr, int type, char **envp)
 			builtin_run(curr);
 			exit(g_data.exit_status);
 		}
+		// ft_putnbr_fd(a, 1);
+		// ft_putstr_fd("\n", 1);
+		// dup2(0, 5);
 		execve(curr->command[0], curr->command, envp);
 		error_exit("command not found", curr->command[0], 127);
 		exit(g_data.exit_status);

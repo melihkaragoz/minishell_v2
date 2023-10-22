@@ -183,6 +183,7 @@ int set_commands(void)
 			if (redir != NULL)
 			{
 				add_redirection_node(cmd, redir, redir->type);
+				close_all_redirections();
 				if (tmp->next->next)
 				{
 					tmp = tmp->next->next;
@@ -204,7 +205,6 @@ int set_commands(void)
 		if (tmp && tmp->type == PIPPE)
 			tmp = tmp->next;
 	}
-	close_all_redirections();
 	return (1);
 }
 
