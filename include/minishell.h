@@ -144,8 +144,10 @@ int	go_dir(char *path);
 int run_cd(t_command *cmd);
 int	run_echo(t_command *cmd);
 void run_exit(int num);
-int	is_builtin(t_command *cmd);
+int	builtin_run(t_command *cmd);
+int	is_builtin(char	*cmd);
 void	add_environment(char *key, char *value);
 int print_nodes(void);
 char	*smart_substr(char *str, char *start, int len, void *freeable);
+void	ms_exit(int	stat);
 #endif

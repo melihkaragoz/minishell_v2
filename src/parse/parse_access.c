@@ -4,14 +4,14 @@ extern t_data g_data;
 
 static int cmd_access(char *cmd, t_command *node)
 {
-	int		i;
-	char	*tmp;
-	char	**paths;
-	char	*path;
+	int i;
+	char *tmp;
+	char **paths;
+	char *path;
 
 	i = -1;
 	path = get_env("PATH");
-	if (path == NULL)	
+	if (path == NULL)
 		return (error_exit("No such file or directory", cmd, 127));
 	paths = ft_split(path, ':');
 	while (paths[++i])
@@ -22,7 +22,7 @@ static int cmd_access(char *cmd, t_command *node)
 		{
 			node->command[0] = smart_dup(tmp, node->command[0]);
 			smart_free(tmp);
-			break ;
+			break;
 		}
 		smart_free(tmp);
 	}
@@ -33,17 +33,22 @@ static int cmd_access(char *cmd, t_command *node)
 
 void parse_access()
 {
-	char	*cmd;
+	char *cmd;
 	t_command *tmp;
-	
+
 	tmp = g_data.command_head;
 	while (tmp)
 	{
+		if (is_builtin(tmp->command[0]))
+		{
+			tmp = tmp->next;
+			continue;
+		}
 		cmd = tmp->command[0];
 		if (access(cmd, X_OK) == 0)
 		{
 			tmp = tmp->next;
-			continue ;
+			continue;
 		}
 		cmd_access(cmd, tmp);
 		tmp = tmp->next;

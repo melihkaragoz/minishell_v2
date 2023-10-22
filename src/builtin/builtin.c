@@ -7,9 +7,9 @@ int	run_env(void)
 	t_env *env;
 
 	env = g_data.env_head;
-	while (env && env->value)
+	while (env && env->value && !is_full_space(env->value))
 	{
-		printf("%s\n", env->value);
+		printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
 	return (1);
@@ -28,8 +28,8 @@ int	run_export(t_command *cmd)
 		while (tmp && tmp->value)
 		{
 			printf("declare -x %s", tmp->key);
-			if (tmp->value)
-				printf("=\"%s\"", tmp->key);
+			if (tmp->value && !is_full_space(tmp->value))
+				printf("=\"%s\"", tmp->value);
 			printf("\n");
 			tmp = tmp->next;
 		}
@@ -37,7 +37,10 @@ int	run_export(t_command *cmd)
 	else
 	{
 		splitted = ft_split(arg, '=');
-		add_environment(splitted[0], splitted[1]);
+		if (!splitted[1])
+			add_environment(splitted[0], "");
+		else
+			add_environment(splitted[0], splitted[1]);
 		smart_free_strs(splitted);
 	}
 	return (1);
@@ -111,7 +114,7 @@ int run_cd(t_command *cmd)
 	}
 	add_environment("PWD", tmp);
 	add_environment("OLDPWD", curr);
-	smart_free(tmp);
+	// smart_free(tmp);
 	smart_free(curr);
 	smart_free(home);
 	return (1);

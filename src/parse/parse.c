@@ -187,7 +187,7 @@ int set_commands(void)
 				if (tmp->next->next)
 				{
 					tmp = tmp->next->next;
-					continue ;
+					continue;
 				}
 				else
 				{
@@ -240,6 +240,30 @@ void trim(char **rl)
 		i++;
 	}
 	*rl = smart_substr(*rl, st, fn - st + 1, *rl);
+}
+
+void	ms_exit(int	stat)
+{
+	exit(stat);
+}
+
+int is_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", 5) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "cd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "pwd", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "export", 7) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "unset", 6) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "env", 4) == 0)
+		return (1);
+	else if (ft_strncmp(cmd, "exit", 5) == 0)
+		return (1);
+	return (0);
 }
 
 int parse(char *rl)

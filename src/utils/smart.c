@@ -5,6 +5,8 @@ void smart_free(void *addr)
 {
 	if (addr)
 	{
+		if (!ft_strncmp("include", (char *)addr, 8))
+			printf("msg\n");
 		free(addr);
 		addr = NULL;
 	}
@@ -13,7 +15,7 @@ void smart_free(void *addr)
 char *smart_join(char *s1, char *s2, void *freeable)
 {
 	char *ret;
-	
+
 	ret = ft_strjoin(s1, s2);
 	smart_free(freeable);
 	return (ret);
