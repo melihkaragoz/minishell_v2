@@ -6,6 +6,7 @@ src/execute/heredoc.c \
 src/parse/parse.c \
 src/parse/parse_list.c \
 src/builtin/builtin.c \
+src/builtin/builtin_helper.c \
 src/builtin/builtin_utils.c \
 src/parse/parse_env.c \
 src/parse/parse_access.c \
@@ -19,7 +20,7 @@ src/utils/smart.c \
 src/utils/env.c \
 src/utils/parse_utils.c \
 src/utils/init.c\
-src/signal/signal.c\
+src/utils/signal.c\
 src/main.c
 
 OBJS  = $(SRCS:.c=.o)

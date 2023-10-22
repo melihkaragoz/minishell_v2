@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:32:56 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:33:17 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-static t_env *create_env(char *key, char *value)
+static	t_env *create_env(char *key, char *value)
 {
-	t_env *new;
+	t_env	*new;
 
 	new = malloc(sizeof(t_env));
 	new->key = ft_strdup(key);
 	new->value = ft_strdup(value);
 	new->next = NULL;
-	return new;
+	return (new);
 }
 
-void add_environment(char *key, char *value)
+void	add_environment(char *key, char *value)
 {
 	if (!check_and_update(key, value))
 	{
