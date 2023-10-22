@@ -230,7 +230,10 @@ int set_commands(void)
 			{
 				add_redirection_node(cmd, redir, redir->type);
 				if (tmp->next->next)
+				{
 					tmp = tmp->next->next;
+					continue ;
+				}
 				else
 				{
 					cmd->command[i] = NULL;
@@ -345,7 +348,7 @@ int parse(char *rl)
 		cn = cn->next;
 	}
 	printf("\n\n");
-	// ################################################################ DEBUG
+	printf("/t/t/t################################################################ LAST DEBUG\n\n");
 
 	print_commands();
 	parse_access();

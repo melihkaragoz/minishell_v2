@@ -7,7 +7,7 @@ int is_full_space(char *rl)
 	int i;
 
 	i = 0;
-	while (rl[i])
+	while (rl && rl[i])
 	{
 		if (rl[i] != ' ' && rl[i] != '\t')
 			return (0);

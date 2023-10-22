@@ -53,7 +53,7 @@ int	is_builtin(t_command *cmd)
 
 void exec(t_command *curr, int type, char **envp)
 {
-	heredoc(curr->redirection_heads[HEREDOC]);
+	heredoc(curr->redirection_heads[HEREDOC - 1]);
 	if (fork() == 0)
 	{
 		redirections(curr);

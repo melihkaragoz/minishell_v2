@@ -16,23 +16,8 @@ int is_special_char(char c)
 	return 0;
 }
 
-
-// t_redirection *if_redir(t_parse_node *temp)
-// {
-// 	if (ft_strncmp(temp->word, "<<", 2) == 0)
-// 		return create_redirection_node(temp->next->word, HEREDOC);
-// 	else if (ft_strncmp(temp->word, ">>", 2) == 0)
-// 		return create_redirection_node(temp->next->word, APPEND);
-// 	else if (ft_strncmp(temp->word, "<", 1) == 0)
-// 		return create_redirection_node(temp->next->word, INFILE);
-// 	else if (ft_strncmp(temp->word, ">", 1) == 0)
-// 		return create_redirection_node(temp->next->word, OUTFILE);
-// 	return (NULL);
-// }
-
 t_redirection *if_redir(t_parse_node *temp)
 {
-	printf("\t\t\t[!!]w: %s, t: %d\n", temp->word, temp->type);
 	if (temp->type == HEREDOC)
 		return (create_redirection_node(temp->next->word, HEREDOC));
 	else if (temp->type == APPEND)
@@ -46,14 +31,13 @@ t_redirection *if_redir(t_parse_node *temp)
 
 int is_redir(t_parse_node *temp)
 {
-	printf("\t\t\t[!!]w: %s, t: %d\n", temp->word, temp->type);
 	if (ft_strncmp(temp->word, "<<", 2) == 0)
-		return HEREDOC;
+		return (HEREDOC);
 	else if (ft_strncmp(temp->word, ">>", 2) == 0)
-		return APPEND;
+		return (APPEND);
 	else if (ft_strncmp(temp->word, "<", 1) == 0)
-		return INFILE;
+		return (INFILE);
 	else if (ft_strncmp(temp->word, ">", 1) == 0)
-		return OUTFILE;
+		return (OUTFILE);
 	return (-1);
 }
