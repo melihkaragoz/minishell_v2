@@ -36,9 +36,9 @@ t_redirection *if_redir(t_parse_node *temp)
 		return create_redirection_node(temp->next->word, HEREDOC);
 	else if (temp->type == 6)
 		return create_redirection_node(temp->next->word, APPEND);
-	else if (temp->type == 3)
-		return create_redirection_node(temp->next->word, INFILE);
 	else if (temp->type == 4)
+		return create_redirection_node(temp->next->word, INFILE);
+	else if (temp->type == 1)
 		return create_redirection_node(temp->next->word, OUTFILE);
 	return (NULL);
 }

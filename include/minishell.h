@@ -18,10 +18,10 @@
 # define SINGLE_Q 1
 # define DOUBLE_Q 2
 
-# define INFILE 4
 # define OUTFILE 1
 # define HEREDOC 2
 # define APPEND 3
+# define INFILE 4
 # define PIPPE 5
 # define BUILTIN 6
 

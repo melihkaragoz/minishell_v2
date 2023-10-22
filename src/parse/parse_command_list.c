@@ -88,19 +88,19 @@ void print_commands(void)
 	while(temp != NULL)
 	{
 		i = 0;
-		printf("command\n");
+		printf("\n\narg[%d]: %s ", i, temp->command[i]);
 		while (temp->command[i])
 		{
-			printf("\n##########\narg[%d]: %s ", i, temp->command[i]);
-			printf("\nredirections: \n");
 			int j = 0;
 			while (j < 4)
 			{
 				t_redirection *redir = temp->redirection_heads[j];
+				if (redir)
+					printf("\n\tredirections: \n");
 				while (redir != NULL)
 				{
 					char *type = NULL;
-					if (redir->type == 0)
+					if (redir->type == 4)
 						type = "infile";
 					else if (redir->type == 1)
 						type = "outfile";
@@ -108,7 +108,7 @@ void print_commands(void)
 						type = "heredoc";
 					else if (redir->type == 3)
 						type = "append";
-					printf("\ntype: %s key: %s ", type, redir->key);
+					printf("\t\ttype: %s\n\t\tkey: %s\n", type, redir->key);
 					redir = redir->next;
 				}
 				if (redir != NULL)

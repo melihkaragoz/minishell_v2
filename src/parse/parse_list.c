@@ -22,14 +22,12 @@ void add_parse_node(char *s)
 		new->prev = NULL;
 		g_data.parse_head = new;
 		g_data.parse_tail = new;
-		printf(" -%s- node added to parse_head\n", g_data.parse_head->word);
 	}
 	else
 	{
 		new->prev = g_data.parse_tail;
 		g_data.parse_tail->next = new;
 		g_data.parse_tail = new;
-		printf(" -%s- node added to next\n", g_data.parse_tail->word);
 	}
 }
 

@@ -47,9 +47,9 @@ static void ms_set_quote_mode(int set, int *i)
 
 static void ms_set_arg_false(int i, int *j)
 {
-	if (i == 4 || i == 1 || i == 5 || i == 3)
+	if (i == 4 || i == 1 || i == 2 || i == 3)
 		(*j)++;
-	if (i == 4 || i == 1 || i == 5 || i == 0)
+	if (i == 4 || i == 1 || i == 2 || i == 0)
 		g_data.arg_mode = false;
 	if (i == 7 || i == 5)
 		g_data.quote_mode = 0;
@@ -229,7 +229,10 @@ int set_commands(void)
 			if (redir != NULL)
 			{
 				add_redirection_node(cmd, redir, redir->type);
-				tmp = tmp->next->next;
+				if (tmp->next->next)
+					tmp = tmp->next->next;
+				else
+					break;
 			}
 			cmd->command[i] = ft_strdup(tmp->word);
 			tmp = tmp->next;

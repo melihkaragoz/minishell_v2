@@ -23,15 +23,15 @@ t_redirection *create_redirection_node(char *key, int type)
 
 void add_redirection_node(t_command *command, t_redirection *new, int type)
 {
-	if (command->redirection_heads[type] == NULL)
+	if (command->redirection_heads[type - 1] == NULL)
 	{
-		command->redirection_heads[type] = new;
-		command->redirection_tails[type] = new;
+		command->redirection_heads[type - 1] = new;
+		command->redirection_tails[type - 1] = new;
 	}
 	else
 	{
-		command->redirection_tails[type]->next = new; 
-		command->redirection_tails[type] = new;
+		command->redirection_tails[type - 1]->next = new;
+		command->redirection_tails[type - 1] = new;
 	}
 	if (type == HEREDOC || type == INFILE)
 		command->infile = new;
