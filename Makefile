@@ -33,7 +33,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra $(INC) -g -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra $(INC) -g 
 
 LDFLAGS = -lreadline
 

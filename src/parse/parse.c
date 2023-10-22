@@ -232,7 +232,11 @@ int set_commands(void)
 				if (tmp->next->next)
 					tmp = tmp->next->next;
 				else
-					break;
+				{
+					cmd->command[i] = NULL;
+					add_command_node(cmd);
+					return (1);
+				}
 			}
 			cmd->command[i] = ft_strdup(tmp->word);
 			tmp = tmp->next;
@@ -303,6 +307,7 @@ int parse(char *rl)
 		pn = pn->next;
 	}
 	printf("\n\n");
+	// ################################################################ DEBUG
 
 	env_resulation();
 	pn = g_data.parse_head;
@@ -313,7 +318,7 @@ int parse(char *rl)
 		pn = pn->next;
 	}
 	printf("\n\n");
-
+	// ################################################################ DEBUG
 	ms_set_nodes(&i);
 	pn = g_data.parse_head;
 	printf("\n\tAFTER SETTING NODES\n");
@@ -323,14 +328,14 @@ int parse(char *rl)
 		pn = pn->next;
 	}
 	printf("\n\n");
-
+	// ################################################################ DEBUG
 	// prints_nodes();
 	set_commands();
 	t_command *cn;
 	cn = g_data.command_head;
 	pn = g_data.parse_head;
 	printf("\n\tAFTER SETTING COMMANDS\n");
-	int c = -1;
+	int c;
 	while (cn)
 	{
 		c = -1;
@@ -343,6 +348,7 @@ int parse(char *rl)
 	// ################################################################ DEBUG
 
 	print_commands();
+	parse_access();
 	return (0);
 }
 
