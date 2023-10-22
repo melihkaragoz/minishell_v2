@@ -274,6 +274,7 @@ int parse(char *rl)
 	if (check_missing_quotes(rl))
 	{
 		perror("Missing quote!\n");
+		free(rl);
 		return (1);
 	}
 	trim(&rl);

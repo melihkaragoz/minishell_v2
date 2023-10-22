@@ -13,5 +13,13 @@ void sigint_handler(int signum)
 void sigquit_handler(int signum)
 {
 	(void)signum;
-	printf("Quit: 3\n");
+	if (g_data.quit_flag == 1)
+	{
+		write(1, "\033[2D", 4);
+		write(1, "  ", 2);
+		write(1, "\033[2D", 4);
+		ioctl(-1, TIOCSTI, "\n");
+		g_data.quit_flag = 0;
+	}
+	g_data.quit_flag = 1;
 }

@@ -90,6 +90,7 @@ typedef struct s_data
 	char *seperators[SEPERATORS_SIZE];
 	int exit_status;
 	int sig;
+	int quit_flag;
 }	t_data;
 
 

@@ -27,6 +27,7 @@ void init_data(int argc, char *argv[], char *envp[])
 	g_data.env_tail = NULL;
 	g_data.exit_status = 0;
 	g_data.sig = MAIN;
+	g_data.quit_flag = 0;
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, sigquit_handler);
 	set_env(envp);
