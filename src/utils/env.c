@@ -13,7 +13,7 @@ static t_env *create_env(char *key, char *value)
 	return new;
 }
 
-void	add_environment(char *key, char *value)
+void add_environment(char *key, char *value)
 {
 	if (!check_and_update(key, value))
 	{
@@ -33,8 +33,8 @@ void	add_environment(char *key, char *value)
 
 void set_env(char **envp)
 {
-	int		i;
-	char	**splitted;
+	int i;
+	char **splitted;
 
 	i = 0;
 	while (envp[i])
@@ -44,7 +44,6 @@ void set_env(char **envp)
 		smart_free_strs(splitted);
 		i++;
 	}
-
 }
 
 char *get_env(char *key)
@@ -66,7 +65,8 @@ char *get_env(char *key)
 char **merge_env()
 {
 	t_env *curr;
-	int	i;
+	int i;
+	char **envp;
 
 	i = 0;
 	curr = g_data.env_head;
@@ -75,7 +75,7 @@ char **merge_env()
 		i++;
 		curr = curr->next;
 	}
-	char **envp = malloc(sizeof(char *) * (i + 1));
+	envp = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	curr = g_data.env_head;
 	while (curr != NULL)

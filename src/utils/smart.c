@@ -35,7 +35,7 @@ void smart_free_strs(char **strs)
 	int i;
 
 	i = 0;
-	while (strs[i])
+	while (strs && strs[i])
 	{
 		smart_free(strs[i]);
 		i++;

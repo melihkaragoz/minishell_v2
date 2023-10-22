@@ -48,15 +48,17 @@ int builtin_run(t_command *cmd)
 		return (run_env());
 	else if (ft_strncmp(cmd->command[0], "exit", 5) == 0)
 		run_exit(0);
-	printf("builyin degil\n");
 	return (0);
 }
 
 void exec(t_command *curr, int type, char **envp)
 {
 	heredoc(curr->redirection_heads[HEREDOC - 1]);
-	if (builtin_run(curr))
-		return ; // exit(g_data.exit_status);
+	if (is_builtin(curr->command[0]) && type != MULTI_COMMAND)
+	{
+		builtin_run(curr); // exit(g_data.exit_status);
+		return;
+	}
 	if (fork() == 0)
 	{
 		redirections(curr);
@@ -64,6 +66,11 @@ void exec(t_command *curr, int type, char **envp)
 		{
 			duplicates(curr);
 			close_pipes();
+		}
+		if (is_builtin(curr->command[0]))
+		{
+			builtin_run(curr);
+			exit(g_data.exit_status);
 		}
 		execve(curr->command[0], curr->command, envp);
 		error_exit("command not found", curr->command[0], 127);
@@ -74,7 +81,6 @@ void execute(char **envp)
 {
 	t_command *curr;
 	int status;
-
 	curr = g_data.command_head;
 	if (curr && curr->next == NULL)
 		exec(curr, SINGLE_COMMAND, envp);

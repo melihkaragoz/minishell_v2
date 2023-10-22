@@ -20,7 +20,12 @@ int rl_control(char *rl)
 	return (0);
 }
 
-int ft_stdout;
+void gadget(void)
+{
+	system("leaks minishell");
+	printf("devam mi abi ? ");
+	getchar();
+}
 
 int main(int argc, char *argv[], char *envp[])
 {
@@ -29,7 +34,6 @@ int main(int argc, char *argv[], char *envp[])
 	init_data(argc, argv, envp);
 	while (1)
 	{
-		ft_stdout = dup(1);
 		rl = readline("segmentation fault$ ");
 		if (rl_control(rl) == 1)
 			continue;
@@ -39,7 +43,8 @@ int main(int argc, char *argv[], char *envp[])
 		close_all_redirections();
 		clear_parse_list();
 		clear_command_list();
-		// free(rl);
+		free(rl);
+		// system("leaks minishell");
 	}
 	return 0;
 }

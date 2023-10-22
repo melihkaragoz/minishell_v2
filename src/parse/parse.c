@@ -242,7 +242,7 @@ void trim(char **rl)
 	*rl = smart_substr(*rl, st, fn - st + 1, *rl);
 }
 
-void	ms_exit(int	stat)
+void ms_exit(int stat)
 {
 	exit(stat);
 }

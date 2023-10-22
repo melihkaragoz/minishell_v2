@@ -20,7 +20,7 @@ void update_env_tail(void)
 		g_data.env_tail = g_data.env_tail->next;
 }
 
-int	go_dir(char *path)
+int go_dir(char *path)
 {
 	char *pwd;
 	char *oldpwd;
@@ -43,8 +43,9 @@ int	go_dir(char *path)
 
 void run_exit(int num)
 {
-	printf("exiteeddd");
+	close_all_redirections();
 	clear_parse_list();
+	clear_command_list();
+	system("leaks minishell");
 	exit(num);
-	// exit(g_data.exit_status);
 }
