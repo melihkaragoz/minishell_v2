@@ -131,7 +131,7 @@ static void seperate(char *rl, int *i)
 {
 	int f;
 
-	g_data.line = ft_strdup(rl);
+	g_data.line = rl;
 	while (g_data.line && g_data.line[*i])
 	{
 		while (g_data.line[*i] && g_data.line[*i] <= 32 && g_data.line[*i] >= 0) // bosluklari gec
@@ -284,5 +284,7 @@ int parse(char *rl)
 	set_commands();
 	// print_commands();
 	parse_access();
+	free(g_data.line);
+	system("leaks minishell");
 	return (0);
 }

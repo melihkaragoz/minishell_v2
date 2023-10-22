@@ -2,7 +2,7 @@
 
 extern t_data g_data;
 
-int	run_env(void)
+int run_env(void)
 {
 	t_env *env;
 
@@ -15,11 +15,11 @@ int	run_env(void)
 	return (1);
 }
 
-int	run_export(t_command *cmd)
+int run_export(t_command *cmd)
 {
-	char	**splitted;
-	t_env	*tmp;
-	char	*arg;
+	char **splitted;
+	t_env *tmp;
+	char *arg;
 
 	arg = cmd->command[1];
 	if (!arg)
@@ -46,7 +46,7 @@ int	run_export(t_command *cmd)
 	return (1);
 }
 
-int	run_pwd(void)
+int run_pwd(void)
 {
 	char *pwd;
 
@@ -56,7 +56,7 @@ int	run_pwd(void)
 	return (1);
 }
 
-int	run_echo(t_command *cmd)
+int run_echo(t_command *cmd)
 {
 	bool n;
 	int i;
@@ -83,10 +83,10 @@ int	run_echo(t_command *cmd)
 
 int run_cd(t_command *cmd)
 {
-	int		res;
-	char	*home;
-	char	*curr;
-	char	*tmp;
+	int res;
+	char *home;
+	char *curr;
+	char *tmp;
 
 	res = -1;
 	home = get_env("HOME");
@@ -120,30 +120,41 @@ int run_cd(t_command *cmd)
 	return (1);
 }
 
-int	run_unset(t_command *cmd)
+void	*unset_node(t_env *node)
+{
+	void	*tmp;
+
+	smart_free(node->key);
+	smart_free(node->value);
+	tmp = node->next;
+	free(node);
+	return (tmp);
+}
+
+int run_unset(t_command *cmd)
 {
 	t_env *prev;
 	t_env *env;
 
-	char	*s;
+	char *s;
 	env = g_data.env_head;
 	prev = g_data.env_head;
 	s = cmd->command[1];
 	while (s && env && env->value)
 	{
-		if (ft_strlen(env->key) == ft_strlen(s))
+		if (ft_strlen(env->key) == ft_strlen(s) &&
+			!ft_strncmp(s, env->key, ft_strlen(env->key)))
 		{
-			if (!ft_strncmp(s, env->key, ft_strlen(env->key)))
-			{
-				if (env == g_data.env_head)
-					g_data.env_head = g_data.env_head->next;
-				else if (env == g_data.env_tail)
-					prev->next = NULL;
-				else
-					prev->next = env->next;
-				update_env_tail();
-				return (1);
-			}
+			if (env == g_data.env_head)
+				g_data.env_head = unset_node(env);
+			else
+				prev->next = unset_node(env);
+			// else if (env == g_data.env_tail)
+			// 	prev->next = NULL;
+			// else
+			// 	prev->next = env->next;
+			update_env_tail();
+			return (1);
 		}
 		prev = env;
 		env = env->next;

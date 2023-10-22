@@ -43,8 +43,8 @@ int main(int argc, char *argv[], char *envp[])
 		close_all_redirections();
 		clear_parse_list();
 		clear_command_list();
-		free(rl);
-		// system("leaks minishell");
+		//free(rl);
+		//system("leaks minishell");
 	}
 	return 0;
 }
