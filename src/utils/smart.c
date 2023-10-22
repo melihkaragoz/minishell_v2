@@ -1,7 +1,18 @@
-#include "libft.h"
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   smart.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:43:06 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:43:49 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void smart_free(void *addr)
+#include "minishell.h"
+
+void	smart_free(void *addr)
 {
 	if (addr)
 	{
@@ -12,27 +23,27 @@ void smart_free(void *addr)
 	}
 }
 
-char *smart_join(char *s1, char *s2, void *freeable)
+char	*smart_join(char *s1, char *s2, void *freeable)
 {
-	char *ret;
+	char	*ret;
 
 	ret = ft_strjoin(s1, s2);
 	smart_free(freeable);
 	return (ret);
 }
 
-char *smart_dup(char *s1, void *freeable)
+char	*smart_dup(char *s1, void *freeable)
 {
-	char *ret;
+	char	*ret;
 
 	ret = ft_strdup(s1);
 	smart_free(freeable);
-	return ret;
+	return (ret);
 }
 
-void smart_free_strs(char **strs)
+void	smart_free_strs(char **strs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (strs && strs[i])

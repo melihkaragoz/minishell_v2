@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 02:32:56 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 02:33:17 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 02:40:33 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 extern t_data	g_data;
 
-static	t_env *create_env(char *key, char *value)
+static t_env	*create_env(char *key, char *value)
 {
 	t_env	*new;
 
@@ -27,9 +27,11 @@ static	t_env *create_env(char *key, char *value)
 
 void	add_environment(char *key, char *value)
 {
+	t_env	*new;
+
 	if (!check_and_update(key, value))
 	{
-		t_env *new = create_env(key, value);
+		new = create_env(key, value);
 		if (g_data.env_head == NULL)
 		{
 			g_data.env_head = new;
@@ -43,10 +45,10 @@ void	add_environment(char *key, char *value)
 	}
 }
 
-void set_env(char **envp)
+void	set_env(char **envp)
 {
-	int i;
-	char **splitted;
+	char	**splitted;
+	int		i;
 
 	i = 0;
 	while (envp[i])
@@ -58,15 +60,15 @@ void set_env(char **envp)
 	}
 }
 
-char *get_env(char *key)
+char	*get_env(char *key)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	temp = g_data.env_head;
 	while (temp != NULL)
 	{
 		if (ft_strncmp(temp->key, key, ft_strlen(key) + 1) == 0)
-			break;
+			break ;
 		temp = temp->next;
 	}
 	if (temp == NULL)
@@ -74,11 +76,11 @@ char *get_env(char *key)
 	return (ft_strdup(temp->value));
 }
 
-char **merge_env()
+char	**merge_env(void)
 {
-	t_env *curr;
-	int i;
-	char **envp;
+	char	**envp;
+	t_env	*curr;
+	int		i;
 
 	i = 0;
 	curr = g_data.env_head;

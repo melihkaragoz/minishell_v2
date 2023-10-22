@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:41:12 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:41:13 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-static void init_seperators(void)
+static void	init_seperators(void)
 {
 	g_data.seperators[0] = "|";
 	g_data.seperators[1] = " ";
@@ -14,7 +26,7 @@ static void init_seperators(void)
 	g_data.seperators[7] = "\0";
 }
 
-void init_data(int argc, char *argv[], char *envp[])
+void	init_data(int argc, char *argv[], char *envp[])
 {
 	(void)argc;
 	(void)argv;
@@ -36,7 +48,7 @@ void init_data(int argc, char *argv[], char *envp[])
 
 int	check_and_update(char *key, char *value)
 {
-	t_env 	*tmp;
+	t_env	*tmp;
 
 	tmp = g_data.env_head;
 	while (tmp != NULL)

@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:44:02 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:44:51 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-int is_full_space(char *rl)
+int	is_full_space(char *rl)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (rl && rl[i])
@@ -15,7 +27,6 @@ int is_full_space(char *rl)
 	}
 	return (1);
 }
-
 
 int	is_sep(char *s)
 {
@@ -33,7 +44,7 @@ int	is_sep(char *s)
 	return (0);
 }
 
-void space_jumper(char *s, int *i)
+void	space_jumper(char *s, int *i)
 {
 	while (s[*i] == ' ' || s[*i] == '\t')
 		(*i)++;
@@ -42,8 +53,7 @@ void space_jumper(char *s, int *i)
 int	ft_isval(int c)
 {
 	if (c < 127 && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9') || c == '_' || c == '.'))
+			|| (c >= '0' && c <= '9') || c == '_' || c == '.'))
 		return (1);
 	return (0);
 }
-
