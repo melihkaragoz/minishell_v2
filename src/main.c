@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 01:52:58 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 01:53:19 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_data g_data;
@@ -18,13 +30,6 @@ int rl_control(char *rl)
 	if (rl == NULL)
 		return (1);
 	return (0);
-}
-
-void gadget(void)
-{
-	system("leaks minishell");
-	printf("devam mi abi ? ");
-	getchar();
 }
 
 int main(int argc, char *argv[], char *envp[])

@@ -151,5 +151,4 @@ void	add_environment(char *key, char *value);
 int print_nodes(void);
 char	*smart_substr(char *str, char *start, int len, void *freeable);
 void	ms_exit(int	stat);
-void gadget(void);
 #endif
