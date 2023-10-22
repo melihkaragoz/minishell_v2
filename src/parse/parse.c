@@ -136,7 +136,6 @@ static void seperate(char *rl, int *i)
 	{
 		while (g_data.line[*i] && g_data.line[*i] <= 32 && g_data.line[*i] >= 0) // bosluklari gec
 			(*i)++;
-		// space_jumper(g_data.line, i);
 		f = (*i);
 		while (g_data.line[*i] && (!ms_end_of_word(i) || g_data.arg_mode)) // ozel karakterleri gec
 			(*i)++;
@@ -144,41 +143,6 @@ static void seperate(char *rl, int *i)
 		g_data.arg_mode = true;
 	}
 }
-
-// static void seperate(char *rl)
-// {
-// 	int	i;
-// 	int start;
-// 	int sep;
-
-// 	i = 0;
-// 	while (rl[i])
-// 	{
-// 		sep = 0;
-// 		space_jumper(rl, &i);
-// 		start = i;
-// 		while (rl[i] && sep == 0)
-// 		{
-// 			sep = is_sep(&rl[i]);
-// 			if (sep == 0)
-// 				i++;
-// 		}
-// 		if (start == i)
-// 			i += sep;
-// 		add_parse_node(ft_substr(rl, start, i - start));
-// 	}
-// }
-
-// void	print_nodes()
-// {
-// 	t_parse_node *tmp = g_data.parse_head;
-// 	while (tmp)
-// 	{
-// 		printf("word:  %s      ----->     type:  %d\n", tmp->word, tmp->type);
-// 		tmp = tmp->next;
-// 	}
-
-// }
 
 static char **alloc_cmd(t_parse_node *pnode)
 {
@@ -197,16 +161,6 @@ static char **alloc_cmd(t_parse_node *pnode)
 	ret[i] = NULL;
 	return (ret);
 }
-
-// static void	prints_nodes()
-// {
-// 	t_parse_node *tmp = g_data.parse_head;
-// 	while (tmp)
-// 	{
-// 		printf("word:  %s      ----->     type:  %d\n", tmp->word, tmp->type);
-// 		tmp = tmp->next;
-// 	}
-// }
 
 int set_commands(void)
 {
@@ -229,6 +183,7 @@ int set_commands(void)
 			if (redir != NULL)
 			{
 				add_redirection_node(cmd, redir, redir->type);
+				close_all_redirections();
 				if (tmp->next->next)
 				{
 					tmp = tmp->next->next;
@@ -299,70 +254,11 @@ int parse(char *rl)
 	}
 	trim(&rl);
 	seperate(rl, &i);
-
-	// ################################################################ DEBUG
-	t_parse_node *pn;
-	pn = g_data.parse_head;
-	printf("\n\tAFTER SEPERATE\n");
-	while (pn)
-	{
-		printf("[PN]word: %s\ttype: %d\n", pn->word, pn->type);
-		pn = pn->next;
-	}
-	printf("\n\n");
-	// ################################################################ DEBUG
-
 	env_resulation();
-	pn = g_data.parse_head;
-	printf("\n\tAFTER RESULATION\n");
-	while (pn)
-	{
-		printf("[PN]word: %s\ttype: %d\n", pn->word, pn->type);
-		pn = pn->next;
-	}
-	printf("\n\n");
-	// ################################################################ DEBUG
 	ms_set_nodes(&i);
-	pn = g_data.parse_head;
-	printf("\n\tAFTER SETTING NODES\n");
-	while (pn)
-	{
-		printf("[PN]word: %s\ttype: %d\n", pn->word, pn->type);
-		pn = pn->next;
-	}
-	printf("\n\n");
-	// ################################################################ DEBUG
 	// prints_nodes();
 	set_commands();
-	t_command *cn;
-	cn = g_data.command_head;
-	pn = g_data.parse_head;
-	printf("\n\tAFTER SETTING COMMANDS\n");
-	int c;
-	while (cn)
-	{
-		c = -1;
-		while (cn->command[++c])
-			printf("[PN]word: %s\n", cn->command[c]);
-		printf("\n");
-		cn = cn->next;
-	}
-	printf("\n\n");
-	printf("/t/t/t################################################################ LAST DEBUG\n\n");
-
-	print_commands();
+	// print_commands();
 	parse_access();
 	return (0);
 }
-
-// int parse(char *rl)
-// {
-// 	seperate(rl);
-// 	env_resulation();
-// 	//tirnak sil
-// if (check_commands() == 0)
-// 		return 1;
-// parse_commands();
-// 	parse_access();
-// 	return 0;
-// }

@@ -20,6 +20,8 @@ int rl_control(char *rl)
 	return (0);
 }
 
+int ft_stdout;
+
 int main(int argc, char *argv[], char *envp[])
 {
 	char *rl;
@@ -27,12 +29,14 @@ int main(int argc, char *argv[], char *envp[])
 	init_data(argc, argv, envp);
 	while (1)
 	{
+		ft_stdout = dup(1);
 		rl = readline("segmentation fault$ ");
 		if (rl_control(rl) == 1)
 			continue;
 		add_history(rl);
 		if (parse(rl) == 0)
 			execute(merge_env());
+		close_all_redirections();
 		clear_parse_list();
 		clear_command_list();
 		// free(rl);

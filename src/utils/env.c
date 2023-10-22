@@ -41,16 +41,6 @@ void set_env(char **envp)
 	{
 		splitted = ft_split(envp[i], '=');
 		add_environment(splitted[0], splitted[1]);
-		// t_env *iter;
-
-
-		// iter = g_data.env_head;
-		// while (iter)
-		// {
-		// 	printf("key: %s, value: %s\n", iter->key, iter->value);
-		// 	iter = iter->next;
-		// }
-		
 		smart_free_strs(splitted);
 		i++;
 	}

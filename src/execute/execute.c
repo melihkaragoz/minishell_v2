@@ -32,12 +32,12 @@ void duplicates(t_command *curr)
 	}
 }
 
-int	is_builtin(t_command *cmd)
+int is_builtin(t_command *cmd)
 {
 	if (ft_strncmp(cmd->command[0], "echo", 5) == 0)
 		return (run_echo(cmd));
 	else if (ft_strncmp(cmd->command[0], "cd", 3) == 0)
-		return(run_cd(cmd));
+		return (run_cd(cmd));
 	else if (ft_strncmp(cmd->command[0], "pwd", 4) == 0)
 		return (run_pwd());
 	else if (ft_strncmp(cmd->command[0], "export", 7) == 0)
@@ -62,7 +62,6 @@ void exec(t_command *curr, int type, char **envp)
 			duplicates(curr);
 			close_pipes();
 		}
-		close_all_redirections();
 		if (is_builtin(curr))
 			exit(g_data.exit_status);
 		execve(curr->command[0], curr->command, envp);
@@ -72,20 +71,10 @@ void exec(t_command *curr, int type, char **envp)
 }
 void execute(char **envp)
 {
-	t_command 	*curr;
-	t_command 	*iter;
-	int			status;
+	t_command *curr;
+	int status;
 
 	curr = g_data.command_head;
-	iter = curr;
-	while (iter)
-	{
-		int i = -1;
-		while (iter->command[++i])
-			printf("%s,", iter->command[i]);
-		printf("\n");
-		iter = iter->next;
-	}
 	if (curr && curr->next == NULL)
 		exec(curr, SINGLE_COMMAND, envp);
 	else

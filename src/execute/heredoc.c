@@ -21,6 +21,7 @@ void heredoc(t_redirection *heredoc)
 			smart_free(rl);
 		}
 		close(heredoc->fd[1]);
+		close(heredoc->fd[0]);
 		heredoc = heredoc->next;
 	}
 }
