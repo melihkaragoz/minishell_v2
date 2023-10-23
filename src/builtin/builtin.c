@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 02:05:15 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 02:19:35 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:12:09 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,29 @@ int	run_env(void)
 	return (1);
 }
 
-int	run_echo(t_command *cmd)
+int	cd_exec(t_command **cmd, char **home, int res, char **tmp)
 {
-	bool	n;
-	int		i;
-
-	i = 1;
-	n = false;
-	while (cmd->command[i])
+	if ((*cmd)->command[1] == NULL)
 	{
-		if (i == 1 && !ft_strncmp("-n", cmd->command[i], 2) && \
-			check_echo_n(cmd->command[i]))
+		res = go_dir(*home);
+		if (res == 0)
 		{
-			n = true;
-			i++;
-			continue ;
+			smart_free(*home);
+			return (0);
 		}
-		printf("%s", cmd->command[i]);
-		if (cmd->command[i + 1])
-			printf(" ");
-		i++;
+		*tmp = *home;
 	}
-	if (n == false)
-		printf("\n");
+	else
+	{
+		res = go_dir((*cmd)->command[1]);
+		if (res == 0)
+		{
+			printf("cd: %s: No such file or directory\n", (*cmd)->command[1]);
+			smart_free(*home);
+			return (0);
+		}
+		*tmp = (*cmd)->command[1];
+	}
 	return (1);
 }
 
@@ -86,27 +86,9 @@ int	run_cd(t_command *cmd)
 	res = -1;
 	home = get_env("HOME");
 	curr = get_env("PWD");
-	if (cmd->command[1] == NULL)
-	{
-		res = go_dir(home);
-		if (res == 0)
-		{
-			smart_free(home);
-			return (0);
-		}
-		tmp = home;
-	}
-	else
-	{
-		res = go_dir(cmd->command[1]);
-		if (res == 0)
-		{
-			printf("cd: %s: No such file or directory\n", cmd->command[1]);
-			smart_free(home);
-			return (0);
-		}
-		tmp = cmd->command[1];
-	}
+	res = cd_exec(&cmd, &home, res, &tmp);
+	if (!res)
+		return (0);
 	add_environment("PWD", tmp);
 	add_environment("OLDPWD", curr);
 	smart_free(curr);

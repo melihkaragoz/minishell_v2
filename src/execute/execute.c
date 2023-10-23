@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:48:01 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:49:05 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-void redirections(t_command *curr)
+void	redirections(t_command *curr)
 {
 	if (curr->infile != NULL)
 	{
@@ -17,7 +29,7 @@ void redirections(t_command *curr)
 		dup2(curr->outfile->fd[0], STDOUT_FILENO);
 }
 
-void duplicates(t_command *curr)
+void	duplicates(t_command *curr)
 {
 	if (curr->prev == NULL && curr->outfile == NULL)
 		dup2(curr->pipe_fds[1], STDOUT_FILENO);
@@ -32,7 +44,7 @@ void duplicates(t_command *curr)
 	}
 }
 
-int builtin_run(t_command *cmd)
+int	builtin_run(t_command *cmd)
 {
 	if (ft_strncmp(cmd->command[0], "echo", 5) == 0)
 		return (run_echo(cmd));
@@ -51,18 +63,16 @@ int builtin_run(t_command *cmd)
 	return (0);
 }
 
-void exec(t_command *curr, int type, char **envp)
+void	exec(t_command *curr, int type, char **envp)
 {
 	heredoc(curr->redirection_heads[HEREDOC - 1]);
 	if (is_builtin(curr->command[0]) && type != MULTI_COMMAND)
 	{
-		builtin_run(curr); // exit(g_data.exit_status);
+		builtin_run(curr);
 		return ;
 	}
 	if (fork() == 0)
 	{
-		// close_all_redirections();
-		// int a = dup(1);
 		redirections(curr);
 		if (type == MULTI_COMMAND)
 		{
@@ -74,18 +84,17 @@ void exec(t_command *curr, int type, char **envp)
 			builtin_run(curr);
 			exit(g_data.exit_status);
 		}
-		// ft_putnbr_fd(a, 1);
-		// ft_putstr_fd("\n", 1);
-		// dup2(0, 5);
 		execve(curr->command[0], curr->command, envp);
 		error_exit("command not found", curr->command[0], 127);
 		exit(g_data.exit_status);
 	}
 }
-void execute(char **envp)
+
+void	execute(char **envp)
 {
-	t_command *curr;
-	int status;
+	t_command	*curr;
+	int			status;
+
 	curr = g_data.command_head;
 	if (curr && curr->next == NULL)
 		exec(curr, SINGLE_COMMAND, envp);

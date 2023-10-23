@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 02:17:34 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 02:19:15 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:12:17 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,30 @@ void	*unset_node(t_env *node)
 	tmp = node->next;
 	free(node);
 	return (tmp);
+}
+
+int	run_echo(t_command *cmd)
+{
+	bool	n;
+	int		i;
+
+	i = 1;
+	n = false;
+	while (cmd->command[i])
+	{
+		if (i == 1 && !ft_strncmp("-n", cmd->command[i], 2) && \
+			check_echo_n(cmd->command[i]))
+		{
+			n = true;
+			i++;
+			continue ;
+		}
+		printf("%s", cmd->command[i]);
+		if (cmd->command[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (n == false)
+		printf("\n");
+	return (1);
 }

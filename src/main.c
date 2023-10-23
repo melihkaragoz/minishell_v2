@@ -6,15 +6,15 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:52:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 01:53:19 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 02:52:38 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_data g_data;
+t_data	g_data;
 
-int rl_control(char *rl)
+int	rl_control(char *rl)
 {
 	if (g_data.sig == 1)
 	{
@@ -32,11 +32,11 @@ int rl_control(char *rl)
 	return (0);
 }
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	char *rl;
-	int stdot;
-	int stdit;
+	char	*rl;
+	int		stdot;
+	int		stdit;
 
 	init_data(argc, argv, envp);
 	while (1)
@@ -45,7 +45,7 @@ int main(int argc, char *argv[], char *envp[])
 		stdit = dup(0);
 		rl = readline("segmentation fault$ ");
 		if (rl_control(rl) == 1)
-			continue;
+			continue ;
 		add_history(rl);
 		if (parse(rl) == 0)
 			execute(merge_env());
@@ -54,8 +54,6 @@ int main(int argc, char *argv[], char *envp[])
 		clear_command_list();
 		dup2(stdot, 1);
 		dup2(stdit, 0);
-		// free(rl);
-		// system("leaks minishell");
 	}
-	return 0;
+	return (0);
 }

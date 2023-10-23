@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:49:25 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:50:19 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-void heredoc(t_redirection *heredoc)
+void	heredoc(t_redirection *heredoc)
 {
-	char *rl;
+	char	*rl;
 
 	while (heredoc != NULL)
 	{
@@ -14,7 +26,7 @@ void heredoc(t_redirection *heredoc)
 			if (ft_strncmp(rl, heredoc->key, ft_strlen(heredoc->key) + 1) == 0)
 			{
 				smart_free(rl);
-				break;
+				break ;
 			}
 			ft_putstr_fd(rl, heredoc->fd[1]);
 			ft_putstr_fd("\n", heredoc->fd[1]);

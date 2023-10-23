@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 02:50:25 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 02:50:32 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-void open_pipes(void)
+void	open_pipes(void)
 {
 	t_command	*curr;
 
@@ -14,7 +26,7 @@ void open_pipes(void)
 	}
 }
 
-void close_pipes(void)
+void	close_pipes(void)
 {
 	t_command	*curr;
 
