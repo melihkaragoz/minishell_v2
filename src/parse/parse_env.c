@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 04:12:32 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 04:14:11 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 05:40:00 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	put_env(char **word, int pos)
 	int		start;
 
 	start = pos;
+
 	while (ft_isval((*word)[pos]) == 1)
 		pos++;
 	left = get_left(start, word);
@@ -88,3 +89,5 @@ void	dollar(char **word, int i)
 		*word = smart_join(start, *word, *word);
 	smart_free(start);
 }
+
+
