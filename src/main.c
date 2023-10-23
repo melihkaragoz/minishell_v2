@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:52:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 02:52:38 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 03:14:56 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int argc, char *argv[], char *envp[])
 		clear_command_list();
 		dup2(stdot, 1);
 		dup2(stdit, 0);
+		system("leaks minishell");
 	}
 	return (0);
 }
