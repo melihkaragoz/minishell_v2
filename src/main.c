@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 01:52:58 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 05:45:21 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 05:59:58 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ int	rl_control(char *rl)
 		smart_free(rl);
 		return (1);
 	}
-	else if (!(*(rl)))
-	{
-		printf("\033[A\n%sexit\n", "segmantation fault: ");
-		exit(0);
-	}
 	return (0);
+}
+
+void	ms_exit(void)
+{
+	printf("\033[A\n%sexit\n", "minihell$ ");
+	exit(0);
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -51,8 +52,10 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		stdot = dup(1);
 		stdit = dup(0);
-		rl = readline("segmentation fault$ ");
-		if (rl_control(rl) == 1)
+		rl = readline("minihell$ ");
+		if (rl == NULL)
+			ms_exit();
+		else if (rl_control(rl) == 1)
 			continue ;
 		add_history(rl);
 		if (parse(rl) == 0)
