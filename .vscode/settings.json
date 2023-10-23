@@ -21,6 +21,7 @@
 		"tuple": "c",
 		"utility": "c",
 		"libft.h": "c",
-		"complex": "c"
+		"complex": "c",
+		"history.h": "c"
 	}
 }

@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_command_list.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 04:03:55 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 04:04:02 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-static void init_redirections(t_command *command)
+static void	init_redirections(t_command *command)
 {
 	command->redirection_heads[0] = NULL;
 	command->redirection_heads[1] = NULL;
@@ -14,22 +26,20 @@ static void init_redirections(t_command *command)
 	command->redirection_tails[3] = NULL;
 }
 
-
-t_command *create_command_node()
+t_command	*create_command_node(void)
 {
-	t_command *new;
+	t_command	*new;
 
 	new = malloc(sizeof(t_command));
-
 	new->infile = NULL;
 	new->outfile = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	init_redirections(new);
-	return new;
+	return (new);
 }
 
-void add_command_node(t_command *new)
+void	add_command_node(t_command *new)
 {
 	if (g_data.command_head == NULL)
 	{
@@ -45,79 +55,38 @@ void add_command_node(t_command *new)
 	}
 }
 
-void clear_command_list()
+void	cmd_clear(t_redirection **redir, t_redirection **freeable_redir,
+					t_command **freeable, int i)
 {
-	t_command *temp;
-	t_command *freeable;
-	t_redirection *redir;
-	t_redirection *freeable_redir;
-	int i;
+	*redir = (*freeable)->redirection_heads[i];
+	while (*redir != NULL)
+	{
+		*freeable_redir = *redir;
+		*redir = (*redir)->next;
+		smart_free((*freeable_redir)->key);
+		smart_free(*freeable_redir);
+	}
+}
+
+void	clear_command_list(void)
+{
+	t_command		*temp;
+	t_command		*freeable;
+	t_redirection	*redir;
+	t_redirection	*freeable_redir;
+	int				i;
 
 	temp = g_data.command_head;
 	while (temp != NULL)
 	{
 		freeable = temp;
 		temp = temp->next;
-		i = 0;
-		while (i < 4)
-		{
-			redir = freeable->redirection_heads[i];
-			while (redir != NULL)
-			{
-				freeable_redir = redir;
-				redir = redir->next;
-				smart_free(freeable_redir->key);
-				smart_free(freeable_redir);
-			}
-			i++;
-		}
+		i = -1;
+		while (++i < 4)
+			cmd_clear(&redir, &freeable_redir, &freeable, i);
 		smart_free_strs(freeable->command);
 		smart_free(freeable);
 	}
 	g_data.command_head = NULL;
 	g_data.command_tail = NULL;
-}
-
-void print_commands(void)
-{
-	t_command *temp;
-	int i;
-
-	temp = g_data.command_head;
-
-	while(temp != NULL)
-	{
-		i = 0;
-		printf("\n\narg[%d]: %s ", i, temp->command[i]);
-		while (temp->command[i])
-		{
-			int j = 0;
-			while (j < 4)
-			{
-				t_redirection *redir = temp->redirection_heads[j];
-				if (redir)
-					printf("\n\tredirections: \n");
-				while (redir != NULL)
-				{
-					char *type = NULL;
-					if (redir->type == 4)
-						type = "infile";
-					else if (redir->type == 1)
-						type = "outfile";
-					else if (redir->type == 2)
-						type = "heredoc";
-					else if (redir->type == 3)
-						type = "append";
-					printf("\t\ttype: %s\n\t\tkey: %s\n", type, redir->key);
-					redir = redir->next;
-				}
-				if (redir != NULL)
-					printf("\n");
-				j++;
-			}
-			i++;
-		}
-		printf("\n");
-		temp =  temp->next;
-	}
 }

@@ -29,28 +29,35 @@ LIBFT_DIR = libft
 
 INC = -I include -I $(LIBFT_DIR)
 
-
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra $(INC) -g #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra $(INC) -g
 
 LDFLAGS = -lreadline
 
 all: $(NAME)
-
-$(LIBFT):
-	@make -C $(LIBFT_DIR)
+	@echo "\033[32mCOMPILE HAS DONE\033[0m"
 
 $(NAME): $(OBJS) $(LIBFT)
 	@$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
+$(LIBFT):
+	@make -C libft/
+
+%.o: %.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
 	@rm -rf $(OBJS)
+	@make clean -C libft/
+	@echo "\033[31mREMOVED WITH CLEAN\033[0m"
 
 fclean: clean
 	@rm -rf $(NAME)
+	@make fclean -C libft/
+	@echo "\033[31mREMOVED WITH FCLEAN\033[0m"
 
 re: fclean all
 

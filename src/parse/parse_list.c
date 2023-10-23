@@ -1,21 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_list.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 04:15:17 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 04:51:23 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-static t_parse_node *create_parse_node(char *s)
+static t_parse_node	*create_parse_node(char *s)
 {
-	t_parse_node *new;
+	t_parse_node	*new;
 
 	new = malloc(sizeof(t_parse_node));
 	new->type = 0;
 	new->word = s;
 	new->next = NULL;
-	return new;
+	return (new);
 }
 
-void add_parse_node(char *s)
+void	add_parse_node(char *s)
 {
-	t_parse_node *new;
+	t_parse_node	*new;
+
 	new = create_parse_node(s);
 	if (g_data.parse_head == NULL && new)
 	{
@@ -31,7 +44,7 @@ void add_parse_node(char *s)
 	}
 }
 
-void clear_parse_list(void)
+void	clear_parse_list(void)
 {
 	t_parse_node	*temp;
 	t_parse_node	*freeable;
@@ -48,14 +61,19 @@ void clear_parse_list(void)
 	g_data.parse_tail = NULL;
 }
 
-// void print_list(void)
-// {
-// 	t_parse_node *temp;
+void	seperate(char *rl, int *i)
+{
+	int	f;
 
-// 	temp = g_data.parse_head;
-// 	while (temp != NULL)
-// 	{
-// 		printf("%s\n", temp->word);
-// 		temp = temp->next;
-// 	}
-// }
+	g_data.line = rl;
+	while (g_data.line && g_data.line[*i])
+	{
+		while (g_data.line[*i] && g_data.line[*i] <= 32 && g_data.line[*i] >= 0)
+			(*i)++;
+		f = (*i);
+		while (g_data.line[*i] && (!ms_end_of_word(i) || g_data.arg_mode))
+			(*i)++;
+		add_parse_node(ft_substr(g_data.line, f, (*i) - f));
+		g_data.arg_mode = true;
+	}
+}

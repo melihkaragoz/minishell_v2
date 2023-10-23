@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 02:05:15 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 03:12:09 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 04:58:39 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ int	run_env(void)
 	return (1);
 }
 
-int	cd_exec(t_command **cmd, char **home, int res, char **tmp)
+int	cd_exec(t_command **cmd, char **home, char **tmp, char **new)
 {
+	int	res;
+
+	res = -1;
 	if ((*cmd)->command[1] == NULL)
 	{
-		res = go_dir(*home);
+		res = go_dir(*home, new);
 		if (res == 0)
 		{
 			smart_free(*home);
@@ -64,7 +67,7 @@ int	cd_exec(t_command **cmd, char **home, int res, char **tmp)
 	}
 	else
 	{
-		res = go_dir((*cmd)->command[1]);
+		res = go_dir((*cmd)->command[1], new);
 		if (res == 0)
 		{
 			printf("cd: %s: No such file or directory\n", (*cmd)->command[1]);
@@ -81,16 +84,18 @@ int	run_cd(t_command *cmd)
 	char	*home;
 	char	*curr;
 	char	*tmp;
+	char	*new;
 	int		res;
 
 	res = -1;
 	home = get_env("HOME");
 	curr = get_env("PWD");
-	res = cd_exec(&cmd, &home, res, &tmp);
+	res = cd_exec(&cmd, &home, &tmp, &new);
 	if (!res)
 		return (0);
-	add_environment("PWD", tmp);
+	add_environment("PWD", new);
 	add_environment("OLDPWD", curr);
+	smart_free(new);
 	smart_free(curr);
 	smart_free(home);
 	return (1);

@@ -1,13 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_env.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 04:12:32 by mkaragoz          #+#    #+#             */
+/*   Updated: 2023/10/23 04:14:11 by mkaragoz         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-extern t_data g_data;
+extern t_data	g_data;
 
-
-char *get_left(int pos, char **str)
+char	*get_left(int pos, char **str)
 {
-	int start;
-	int len;
-	char *rtn;
+	char	*rtn;
+	int		start;
+	int		len;
 
 	len = 0;
 	while (ft_isval((*str)[pos]) == 1)
@@ -19,10 +30,10 @@ char *get_left(int pos, char **str)
 		len++;
 	}
 	rtn = ft_substr(*str, start, len);
-	return rtn;
+	return (rtn);
 }
 
-void add_left(char *replace, char **str, int pos)
+void	add_left(char *replace, char **str, int pos)
 {
 	char	*left;
 
@@ -34,7 +45,7 @@ void add_left(char *replace, char **str, int pos)
 	smart_free(replace);
 }
 
-static void put_env(char **word, int pos)
+static void	put_env(char **word, int pos)
 {
 	char	*left;
 	char	*key;
@@ -45,7 +56,6 @@ static void put_env(char **word, int pos)
 	while (ft_isval((*word)[pos]) == 1)
 		pos++;
 	left = get_left(start, word);
-
 	key = ft_substr(*word, start, pos - start);
 	value = get_env(key);
 	smart_free(key);
@@ -61,14 +71,14 @@ static void put_env(char **word, int pos)
 	smart_free(left);
 }
 
-void dollar(char **word, int i)
+void	dollar(char **word, int i)
 {
-	char *start;
+	char	*start;
 
 	start = ft_substr(*word, 0, i);
 	if ((*word)[i + 1] == '$')
 		add_left(ft_itoa(getpid()), word, i + 2);
-	else if ((*word)[i + 1]== '?')
+	else if ((*word)[i + 1] == '?')
 		add_left(ft_itoa(g_data.exit_status), word, i + 2);
 	else if ((*word)[i + 1] == '0')
 		add_left(ft_strdup("minishell"), word, i + 2);

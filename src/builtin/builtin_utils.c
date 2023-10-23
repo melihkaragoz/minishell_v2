@@ -6,7 +6,7 @@
 /*   By: mkaragoz <mkaragoz@student.42istanbul.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 02:28:12 by mkaragoz          #+#    #+#             */
-/*   Updated: 2023/10/23 02:29:03 by mkaragoz         ###   ########.fr       */
+/*   Updated: 2023/10/23 04:58:43 by mkaragoz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	update_env_tail(void)
 		g_data.env_tail = g_data.env_tail->next;
 }
 
-int	go_dir(char *path)
+int	go_dir(char *path, char **new)
 {
 	char	*pwd;
 	char	*oldpwd;
@@ -46,7 +46,8 @@ int	go_dir(char *path)
 		smart_free(oldpwd);
 		return (0);
 	}
-	add_environment("PWD", getcwd(NULL, 0));
+	*new = getcwd(NULL, 0);
+	add_environment("PWD", *new);
 	add_environment("OLDPWD", oldpwd);
 	smart_free(pwd);
 	smart_free(oldpwd);
@@ -58,6 +59,5 @@ void	run_exit(int num)
 	close_all_redirections();
 	clear_parse_list();
 	clear_command_list();
-	system("leaks minishell");
 	exit(num);
 }
